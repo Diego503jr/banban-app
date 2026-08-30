@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserContext } from "../context/UserContext";
@@ -11,9 +18,14 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={styles.contenedorPrincipal} edges={['bottom', 'left', 'right']}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContenido}>
-        
+    <SafeAreaView
+      style={styles.contenedorPrincipal}
+      edges={["bottom", "left", "right"]}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContenido}
+      >
         <View style={styles.tarjetaPerfil}>
           <View style={styles.avatar}>
             <MaterialCommunityIcons name="account" size={60} color="#269A88" />
@@ -24,10 +36,14 @@ export default function ProfileScreen() {
 
         {/* DETALLES DE LA CUENTA */}
         <Text style={styles.seccionTitulo}>Información Personal</Text>
-        
+
         <View style={styles.contenedorDetalles}>
           <View style={styles.filaDetalle}>
-            <MaterialCommunityIcons name="account-outline" size={22} color="#269A88" />
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={22}
+              color="#269A88"
+            />
             <View style={styles.textoDetalleContenedor}>
               <Text style={styles.labelDetalle}>Usuario</Text>
               <Text style={styles.valorDetalle}>{user.username}</Text>
@@ -37,17 +53,27 @@ export default function ProfileScreen() {
           <View style={styles.divisor} />
 
           <View style={styles.filaDetalle}>
-            <MaterialCommunityIcons name="email-outline" size={22} color="#269A88" />
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={22}
+              color="#269A88"
+            />
             <View style={styles.textoDetalleContenedor}>
               <Text style={styles.labelDetalle}>Correo Electrónico</Text>
-              <Text style={styles.valorDetalle}>{`${user.username.toLowerCase()}@gmail.com`}</Text>
+              <Text
+                style={styles.valorDetalle}
+              >{`${user.username.toLowerCase()}@gmail.com`}</Text>
             </View>
           </View>
 
           <View style={styles.divisor} />
 
           <View style={styles.filaDetalle}>
-            <MaterialCommunityIcons name="phone-outline" size={22} color="#269A88" />
+            <MaterialCommunityIcons
+              name="phone-outline"
+              size={22}
+              color="#269A88"
+            />
             <View style={styles.textoDetalleContenedor}>
               <Text style={styles.labelDetalle}>Teléfono</Text>
               <Text style={styles.valorDetalle}>+503 7123-4567</Text>
@@ -55,31 +81,53 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.botonSalirPrincipal}>
+        <TouchableOpacity
+          style={styles.botonSalirPrincipal}
+          onPress={() => navigation.navigate("Login")}
+        >
           <MaterialCommunityIcons name="logout" size={20} color="#FFFFFF" />
           <Text style={styles.textoBotonSalir}>Cerrar Sesión</Text>
         </TouchableOpacity>
-
       </ScrollView>
 
       {/* BOTONES INFERIORES */}
       <View style={styles.barraInferior}>
-        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Home")}>
-          <MaterialCommunityIcons name="home-outline" size={24} color="#269A88" />
+        <TouchableOpacity
+          style={styles.itemNav}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <MaterialCommunityIcons
+            name="home-outline"
+            size={24}
+            color="#269A88"
+          />
           <Text style={styles.textoNav}>Menú</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("DataEntry")}>
-          <MaterialCommunityIcons name="clipboard-edit-outline" size={24} color="#269A88" />
+        <TouchableOpacity
+          style={styles.itemNav}
+          onPress={() => navigation.navigate("DataEntry")}
+        >
+          <MaterialCommunityIcons
+            name="clipboard-edit-outline"
+            size={24}
+            color="#269A88"
+          />
           <Text style={styles.textoNav}>Ingreso</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Profile")}>
+        <TouchableOpacity
+          style={styles.itemNav}
+          onPress={() => navigation.navigate("Profile")}
+        >
           <MaterialCommunityIcons name="account" size={24} color="#269A88" />
           <Text style={styles.textoNav}>Perfil</Text>
         </TouchableOpacity>
 
-       <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity
+          style={styles.itemNav}
+          onPress={() => navigation.navigate("Login")}
+        >
           <MaterialCommunityIcons name="logout" size={24} color="#D32F2F" />
           <Text style={[styles.textoNav, { color: "#D32F2F" }]}>Salir</Text>
         </TouchableOpacity>
