@@ -8,10 +8,13 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const DataEntryScreen = ({ onAddProduct, navigation }) => {
+const DataEntryScreen = ({ onAddProduct }) => {
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
@@ -42,77 +45,101 @@ const DataEntryScreen = ({ onAddProduct, navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.contenedorPrincipal}>
-      {/* Encabezado */}
-      <View style={styles.bannerPromo}>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.promoTitulo}>Pastelería Dulce Arcoíris</Text>
-                  <Text style={styles.promoSubtitulo}>Ingreso de productos.</Text>
-                </View>
-                <MaterialCommunityIcons name="cake-variant" size={44} color="#FFFFFF" />
+    <SafeAreaView style={styles.contenedorPrincipal} edges={['top', 'bottom', 'left', 'right']}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+        {/* Encabezado */}
+        <View style={styles.bannerPromo}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.promoTitulo}>Pastelería Dulce Arcoíris</Text>
+            <Text style={styles.promoSubtitulo}>Ingreso de productos.</Text>
+          </View>
+          <MaterialCommunityIcons name="cake-variant" size={44} color="#FFFFFF" />
         </View>
 
       {/* Formulario */}
-      <View style={styles.formularioContenedor}>
-        <Text style={styles.labelInput}>Nombre del producto</Text>
-        <View style={styles.contenedorInput}>
-          <Ionicons name="pricetag-outline" size={18} color="#5C7570" />
-          <TextInput
-            style={styles.input}
-            placeholder="ej. Pastel Red Velvet"
-            placeholderTextColor="#8A9E9A"
-            value={name}
-            onChangeText={setName}
-          />
-        </View>
+        <View style={styles.formularioContenedor}>
+          <Text style={styles.labelInput}>Nombre del producto</Text>
+          <View style={styles.contenedorInput}>
+            <Ionicons name="pricetag-outline" size={18} color="#5C7570" />
+            <TextInput
+              style={styles.input}
+              placeholder="ej. Pastel Red Velvet"
+              placeholderTextColor="#8A9E9A"
+              value={name}
+              onChangeText={setName}
+            />
+          </View>
 
-        <Text style={styles.labelInput}>Categoría</Text>
-        <View style={styles.contenedorInput}>
-          <Ionicons name="grid-outline" size={18} color="#5C7570" />
-          <TextInput
-            style={styles.input}
-            placeholder="ej. Pasteles, Galletas, Cupcakes"
-            placeholderTextColor="#8A9E9A"
-            value={category}
-            onChangeText={setCategory}
-          />
-        </View>
+          <Text style={styles.labelInput}>Categoría</Text>
+          <View style={styles.contenedorInput}>
+            <Ionicons name="grid-outline" size={18} color="#5C7570" />
+            <TextInput
+              style={styles.input}
+              placeholder="ej. Pasteles, Galletas, Cupcakes"
+              placeholderTextColor="#8A9E9A"
+              value={category}
+              onChangeText={setCategory}
+            />
+          </View>
 
-        <Text style={styles.labelInput}>Precio de venta ($)</Text>
-        <View style={styles.contenedorInput}>
-          <Ionicons name="cash-outline" size={18} color="#5C7570" />
-          <TextInput
-            style={styles.input}
-            placeholder="ej. 15.50"
-            placeholderTextColor="#8A9E9A"
-            keyboardType="numeric"
-            value={price}
-            onChangeText={setPrice}
-          />
-        </View>
+          <Text style={styles.labelInput}>Precio de venta ($)</Text>
+          <View style={styles.contenedorInput}>
+            <Ionicons name="cash-outline" size={18} color="#5C7570" />
+            <TextInput
+              style={styles.input}
+              placeholder="ej. 15.50"
+              placeholderTextColor="#8A9E9A"
+              keyboardType="numeric"
+              value={price}
+              onChangeText={setPrice}
+            />
+          </View>
 
-        <TouchableOpacity
-          style={styles.botonGuardar}
-          onPress={handleSubmit}
-          activeOpacity={0.8}
-        >
-          <Ionicons name="add-circle-outline" size={20} color="#FFFFFF" />
-          <Text style={styles.textoBotonGuardar}>Guardar Producto</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={styles.botonGuardar}
+            onPress={handleSubmit}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="add-circle-outline" size={20} color="#FFFFFF" />
+            <Text style={styles.textoBotonGuardar}>Guardar Producto</Text>
+          </TouchableOpacity>
+        </View>
 
       {/* Acceso rápido al inventario */}
-      <TouchableOpacity 
-        style={styles.bannerNavegacion}
-        onPress={() => navigation?.navigate('List')}
-      >
-        <View style={{ flex: 1 }}>
-          <Text style={styles.bannerTitulo}>Ver Inventario Completo</Text>
-          <Text style={styles.bannerSubtitulo}>Consulta, edita o elimina los productos guardados</Text>
-        </View>
-        <Ionicons name="chevron-forward-outline" size={24} color="#164E44" />
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity 
+          style={styles.bannerNavegacion}
+          onPress={() => navigation.navigate('List')}
+        >
+          <View style={{ flex: 1 }}>
+            <Text style={styles.bannerTitulo}>Ver Inventario Completo</Text>
+            <Text style={styles.bannerSubtitulo}>Consulta, edita o elimina los productos guardados</Text>
+          </View>
+          <Ionicons name="chevron-forward-outline" size={24} color="#164E44" />
+        </TouchableOpacity>
+      </ScrollView>
+
+      <View style={styles.barraInferior}>
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Home")}>
+          <MaterialCommunityIcons name="home-outline" size={24} color="#269A88" />
+          <Text style={styles.textoNav}>Menú</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("DataEntry")}>
+          <MaterialCommunityIcons name="clipboard-edit-outline" size={24} color="#269A88" />
+          <Text style={[styles.textoNav, { color: "#269A88" }]}>Ingreso</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Profile")}>
+          <MaterialCommunityIcons name="account-outline" size={24} color="#269A88" />
+          <Text style={styles.textoNav}>Perfil</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Login")}>
+          <MaterialCommunityIcons name="logout" size={24} color="#D32F2F" />
+          <Text style={[styles.textoNav, { color: "#D32F2F" }]}>Salir</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -123,11 +150,8 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 10,
     paddingBottom: 20,
-  },
-  encabezado: {
-    marginBottom: 20,
   },
   bannerPromo: {
     flexDirection: "row",
@@ -147,16 +171,6 @@ const styles = StyleSheet.create({
   promoSubtitulo: {
     fontSize: 12,
     color: "#E2F4F0",
-  },
-  saludo: {
-    fontSize: 13,
-    color: "#5C7570",
-    fontWeight: "500",
-  },
-  nombreUsuario: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#164E44",
   },
   formularioContenedor: {
     marginBottom: 20,
@@ -189,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#269A88",
     borderRadius: 12,
     height: 50,
-    justify: "center",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 8,
     elevation: 2,
@@ -220,6 +234,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#5C7570",
     marginTop: 2,
+  },
+  barraInferior: {
+    flexDirection: "row",
+    height: 60,
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E5F2EE",
+    alignItems: "center",
+  },
+  itemNav: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  textoNav: {
+    fontSize: 11,
+    marginTop: 2,
+    color: "#5C7570",
+    fontWeight: "600",
   },
 });
 

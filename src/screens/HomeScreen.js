@@ -84,7 +84,7 @@ export default function HomeScreen() {
           <Text style={[styles.textoNav, { color: "#269A88" }]}>Menú</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemNav}>
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("DataEntry")}>
           <MaterialCommunityIcons name="clipboard-edit-outline" size={24} color="#269A88" />
           <Text style={styles.textoNav}>Ingreso</Text>
         </TouchableOpacity>
@@ -94,7 +94,7 @@ export default function HomeScreen() {
           <Text style={styles.textoNav}>Perfil</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemNav}>
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Login")}>
           <MaterialCommunityIcons name="logout" size={24} color="#D32F2F" />
           <Text style={[styles.textoNav, { color: "#D32F2F" }]}>Salir</Text>
         </TouchableOpacity>

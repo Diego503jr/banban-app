@@ -9,27 +9,30 @@ import {
   Alert,
   Modal,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const ListScreen = ({ products = [], onDeleteProduct, onEditProduct }) => {
+  const navigation = useNavigation();
   const [busqueda, setBusqueda] = useState('');
 
-  // Estados para controlar el Modal y los datos en edición
+    // Estados para controlar el Modal y los datos en edición
   const [modalVisible, setModalVisible] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState('');
   const [editCategory, setEditCategory] = useState('');
   const [editPrice, setEditPrice] = useState('');
 
-  // Filtrar productos según el término ingresado
+    // Filtrar productos según el término ingresado
   const productosFiltrados = products.filter(
     (item) =>
       item.name.toLowerCase().includes(busqueda.toLowerCase()) ||
       item.category.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  // Abrir modal y precargar la información del producto
+    // Abrir modal y precargar la información del producto
   const abrirModalEdicion = (item) => {
     setEditId(item.id);
     setEditName(item.name);
@@ -38,7 +41,7 @@ const ListScreen = ({ products = [], onDeleteProduct, onEditProduct }) => {
     setModalVisible(true);
   };
 
-  // Guardar los cambios editados
+    // Guardar los cambios editados
   const handleGuardarEdicion = () => {
     if (!editName.trim() || !editCategory.trim() || !editPrice.trim()) {
       Alert.alert("Campos incompletos", "Por favor llena todos los campos.");
@@ -76,140 +79,162 @@ const ListScreen = ({ products = [], onDeleteProduct, onEditProduct }) => {
   };
 
   return (
-    <View style={styles.contenedorPrincipal}>
-      {/* Encabezado */}
-      <View style={styles.bannerPromo}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.promoTitulo}>Pastelería Dulce Arcoíris</Text>
-            <Text style={styles.promoSubtitulo}>Catálogo de productos.</Text>
+    <SafeAreaView style={styles.contenedorPrincipal} edges={['top', 'bottom', 'left', 'right']}>
+      <View style={styles.contenidoInterno}>
+        <View style={styles.bannerPromo}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.promoTitulo}>Pastelería Dulce Arcoíris</Text>
+              <Text style={styles.promoSubtitulo}>Catálogo de productos.</Text>
+            </View>
+            <MaterialCommunityIcons name="cake-variant" size={44} color="#FFFFFF" />
           </View>
-          <MaterialCommunityIcons name="cake-variant" size={44} color="#FFFFFF" />
-        </View>
 
-      {/* Barra de búsqueda */}
-      <View style={styles.contenedorBusqueda}>
-        <Ionicons name="search-outline" size={20} color="#5C7570" />
-        <TextInput
-          style={styles.inputBusqueda}
-          placeholder="Buscar por nombre o categoría..."
-          placeholderTextColor="#8A9E9A"
-          value={busqueda}
-          onChangeText={setBusqueda}
-        />
-        {busqueda.length > 0 && (
-          <TouchableOpacity onPress={() => setBusqueda('')}>
-            <Ionicons name="close-circle" size={18} color="#5C7570" />
-          </TouchableOpacity>
-        )}
-      </View>
+        <View style={styles.contenedorBusqueda}>
+          <Ionicons name="search-outline" size={20} color="#5C7570" />
+          <TextInput
+            style={styles.inputBusqueda}
+            placeholder="Buscar por nombre o categoría..."
+            placeholderTextColor="#8A9E9A"
+            value={busqueda}
+            onChangeText={setBusqueda}
+          />
+          {busqueda.length > 0 && (
+            <TouchableOpacity onPress={() => setBusqueda('')}>
+              <Ionicons name="close-circle" size={18} color="#5C7570" />
+            </TouchableOpacity>
+          )}
+        </View>
 
       {/* Contador de registros */}
-      <View style={styles.filaEspaciada}>
-        <Text style={styles.seccionTitulo}>Inventario Actual</Text>
-        <Text style={styles.verTodoTexto}>
-          {productosFiltrados.length} {productosFiltrados.length === 1 ? 'ítem' : 'ítems'}
-        </Text>
-      </View>
+        <View style={styles.filaEspaciada}>
+          <Text style={styles.seccionTitulo}>Inventario Actual</Text>
+          <Text style={styles.verTodoTexto}>
+            {productosFiltrados.length} {productosFiltrados.length === 1 ? 'ítem' : 'ítems'}
+          </Text>
+        </View>
 
       {/* Lista de productos */}
-      <FlatList
-        data={productosFiltrados}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        ListEmptyComponent={
-          <View style={styles.contenedorVacio}>
-            <Ionicons name="basket-outline" size={48} color="#D2E8E3" />
-            <Text style={styles.textoVacio}>No hay productos registrados</Text>
-          </View>
-        }
-        renderItem={({ item }) => (
-          <View style={styles.tarjetaProducto}>
-            <View style={styles.contenedorIcono}>
-              <Ionicons name="cafe-outline" size={24} color="#269A88" />
+        <FlatList
+          data={productosFiltrados}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          ListEmptyComponent={
+            <View style={styles.contenedorVacio}>
+              <Ionicons name="basket-outline" size={48} color="#D2E8E3" />
+              <Text style={styles.textoVacio}>No hay productos registrados</Text>
             </View>
+          }
+          renderItem={({ item }) => (
+            <View style={styles.tarjetaProducto}>
+              <View style={styles.contenedorIcono}>
+                <Ionicons name="cafe-outline" size={24} color="#269A88" />
+              </View>
 
-            <View style={styles.infoProducto}>
-              <Text style={styles.nombreProducto}>{item.name}</Text>
-              <Text style={styles.categoriaProducto}>{item.category}</Text>
-              <Text style={styles.precioProducto}>${item.price}</Text>
-            </View>
+              <View style={styles.infoProducto}>
+                <Text style={styles.nombreProducto}>{item.name}</Text>
+                <Text style={styles.categoriaProducto}>{item.category}</Text>
+                <Text style={styles.precioProducto}>${item.price}</Text>
+              </View>
 
-            <View style={styles.buttonGroup}>
-              <TouchableOpacity
-                style={styles.botonEditar}
-                onPress={() => abrirModalEdicion(item)}
-              >
-                <Ionicons name="pencil-outline" size={16} color="#164E44" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.botonEliminar}
-                onPress={() => handleDelete(item.id, item.name)}
-              >
-                <Ionicons name="trash-outline" size={16} color="#A5212E" />
-              </TouchableOpacity>
+              <View style={styles.buttonGroup}>
+                <TouchableOpacity
+                  style={styles.botonEditar}
+                  onPress={() => abrirModalEdicion(item)}
+                >
+                  <Ionicons name="pencil-outline" size={16} color="#164E44" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.botonEliminar}
+                  onPress={() => handleDelete(item.id, item.name)}
+                >
+                  <Ionicons name="trash-outline" size={16} color="#A5212E" />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
 
       {/* Modal de Edición */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.overlayModal}>
-          <View style={styles.contenidoModal}>
-            <Text style={styles.tituloModal}>Editar Producto</Text>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.overlayModal}>
+            <View style={styles.contenidoModal}>
+              <Text style={styles.tituloModal}>Editar Producto</Text>
 
-            <Text style={styles.labelInput}>Nombre del producto</Text>
-            <View style={styles.contenedorInput}>
-              <TextInput
-                style={styles.input}
-                value={editName}
-                onChangeText={setEditName}
-              />
-            </View>
+              <Text style={styles.labelInput}>Nombre del producto</Text>
+              <View style={styles.contenedorInputModal}>
+                <TextInput
+                  style={styles.inputModal}
+                  value={editName}
+                  onChangeText={setEditName}
+                />
+              </View>
 
-            <Text style={styles.labelInput}>Categoría</Text>
-            <View style={styles.contenedorInput}>
-              <TextInput
-                style={styles.input}
-                value={editCategory}
-                onChangeText={setEditCategory}
-              />
-            </View>
+              <Text style={styles.labelInput}>Categoría</Text>
+              <View style={styles.contenedorInputModal}>
+                <TextInput
+                  style={styles.inputModal}
+                  value={editCategory}
+                  onChangeText={setEditCategory}
+                />
+              </View>
 
-            <Text style={styles.labelInput}>Precio ($)</Text>
-            <View style={styles.contenedorInput}>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editPrice}
-                onChangeText={setEditPrice}
-              />
-            </View>
+              <Text style={styles.labelInput}>Precio ($)</Text>
+              <View style={styles.contenedorInputModal}>
+                <TextInput
+                  style={styles.inputModal}
+                  keyboardType="numeric"
+                  value={editPrice}
+                  onChangeText={setEditPrice}
+                />
+              </View>
 
-            <View style={styles.accionesModal}>
-              <TouchableOpacity
-                style={styles.botonCancelarModal}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.textoBotonCancelar}>Cancelar</Text>
-              </TouchableOpacity>
+              <View style={styles.accionesModal}>
+                <TouchableOpacity
+                  style={styles.botonCancelarModal}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.textoBotonCancelar}>Cancelar</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.botonGuardarModal}
-                onPress={handleGuardarEdicion}
-              >
-                <Text style={styles.textoBotonGuardar}>Guardar</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.botonGuardarModal}
+                  onPress={handleGuardarEdicion}
+                >
+                  <Text style={styles.textoBotonGuardar}>Guardar</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+
+      <View style={styles.barraInferior}>
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Home")}>
+          <MaterialCommunityIcons name="home-outline" size={24} color="#269A88" />
+          <Text style={styles.textoNav}>Menú</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("DataEntry")}>
+          <MaterialCommunityIcons name="clipboard-edit-outline" size={24} color="#269A88" />
+          <Text style={styles.textoNav}>Ingreso</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Profile")}>
+          <MaterialCommunityIcons name="account-outline" size={24} color="#269A88" />
+          <Text style={styles.textoNav}>Perfil</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.itemNav} onPress={() => navigation.navigate("Login")}>
+          <MaterialCommunityIcons name="logout" size={24} color="#D32F2F" />
+          <Text style={[styles.textoNav, { color: "#D32F2F" }]}>Salir</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -217,11 +242,11 @@ const styles = StyleSheet.create({
   contenedorPrincipal: {
     flex: 1,
     backgroundColor: "#F7FBF9",
-    paddingHorizontal: 20,
-    paddingTop: 50,
   },
-  encabezado: {
-    marginBottom: 16,
+  contenidoInterno: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
   bannerPromo: {
     flexDirection: "row",
@@ -241,16 +266,6 @@ const styles = StyleSheet.create({
   promoSubtitulo: {
     fontSize: 12,
     color: "#E2F4F0",
-  },
-  saludo: {
-    fontSize: 13,
-    color: "#5C7570",
-    fontWeight: "500",
-  },
-  nombreUsuario: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#164E44",
   },
   contenedorBusqueda: {
     flexDirection: "row",
@@ -347,7 +362,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#5C7570",
   },
-  /* Estilos del Modal */
   overlayModal: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
@@ -375,7 +389,7 @@ const styles = StyleSheet.create({
     color: "#164E44",
     marginBottom: 4,
   },
-  contenedorInput: {
+  contenedorInputModal: {
     backgroundColor: "#F7FBF9",
     borderWidth: 1,
     borderColor: "#D2E8E3",
@@ -385,7 +399,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     justifyContent: "center",
   },
-  input: {
+  inputModal: {
     fontSize: 14,
     color: "#164E44",
   },
@@ -418,6 +432,25 @@ const styles = StyleSheet.create({
   textoBotonGuardar: {
     color: "#FFFFFF",
     fontWeight: "bold",
+  },
+  barraInferior: {
+    flexDirection: "row",
+    height: 60,
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E5F2EE",
+    alignItems: "center",
+  },
+  itemNav: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  textoNav: {
+    fontSize: 11,
+    marginTop: 2,
+    color: "#5C7570",
+    fontWeight: "600",
   },
 });
 
